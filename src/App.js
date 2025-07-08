@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import TopicFilter from "./components/TopicFilter";
+import QuestionList from "./components/QuestionList";
+import Quiz from "./components/Quiz";
+import "./App.css";
 
 function App() {
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizData, setQuizData] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="container">
+      <header>
+        <h1>🧠 JEE AI Tutor</h1>
+        <p>Practice Past Year Questions & Personalized Quizzes</p>
       </header>
+
+      <TopicFilter onSelectTopic={setSelectedTopic} />
+
+      {selectedTopic && !showQuiz && (
+        <>
+          <button className="quiz-btn" onClick={() => setShowQuiz(true)}>
+            🎯 Start Quiz on "{selectedTopic}"
+          </button>
+          <QuestionList topic={selectedTopic} />
+        </>
+      )}
+
+      {showQuiz && (
+        <Quiz
+          topic={selectedTopic}
+          setShowQuiz={setShowQuiz}
+          data={quizData}
+          setQuizData={setQuizData}
+        />
+      )}
     </div>
   );
 }
