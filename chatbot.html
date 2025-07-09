@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nexa-AI Chatbot | ExaMind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="styles/chatbot.css" />
+</head>
+<body>
+  <div class="chatbot-container">
+    <h2>🤖 Nexa-AI Chatbot</h2>
+
+    <div id="chat-window" class="chat-window"></div>
+
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Ask me anything..." autocomplete="off" required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const chatWindow = document.getElementById("chat-window");
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+
+    function addMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.className = sender === "user" ? "message user" : "message bot";
+      msg.innerText = text;
+      chatWindow.appendChild(msg);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const userMsg = userInput.value.trim();
+      if (!userMsg) return;
+
+      addMessage("user", userMsg);
+      userInput.value = "";
+
+      addMessage("bot", "⏳ Thinking...");
+
+      try {
+        const res = await fetch("http://127.0.0.1:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMsg }),
+        });
+
+        const data = await res.json();
+        // Remove "thinking" message
+        const loading = document.querySelector(".message.bot:last-child");
+        if (loading && loading.innerText === "⏳ Thinking...") {
+          chatWindow.removeChild(loading);
+        }
+
+        if (res.ok) {
+          addMessage("bot", data.reply || "🤖 No response received.");
+        } else {
+          addMessage("bot", data.error || "❌ Something went wrong.");
+        }
+      } catch (err) {
+        const loading = document.querySelector(".message.bot:last-child");
+        if (loading && loading.innerText === "⏳ Thinking...") {
+          chatWindow.removeChild(loading);
+        }
+        addMessage("bot", "❌ Server error: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
