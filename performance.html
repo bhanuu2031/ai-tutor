@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Performance | ExaMind</title>
+  <link rel="stylesheet" href="styles/performance.css" />
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .performance-container {
+      max-width: 800px;
+      margin: 4rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #222;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #f1f1f1;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      border-left: 5px solid #007BFF;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .back-link a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="performance-container">
+    <h1>📊 Your Quiz Performance</h1>
+    <ul id="performance-list">
+      <li class="empty">Loading...</li>
+    </ul>
+
+    <div class="back-link">
+      <a href="dashboard.html">← Back to Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    const list = document.getElementById("performance-list");
+
+    function loadPerformance() {
+      const performance = JSON.parse(localStorage.getItem("examind-performance")) || [];
+
+      list.innerHTML = "";
+
+      if (performance.length === 0) {
+        list.innerHTML = "<li class='empty'>You haven't taken any quizzes yet.</li>";
+        return;
+      }
+
+      performance.forEach(entry => {
+        const li = document.createElement("li");
+        const date = new Date(entry.timestamp).toLocaleString();
+        li.innerHTML = `
+          <strong>Topic:</strong> ${entry.topic} <br />
+          <strong>Score:</strong> ${entry.score} <br />
+          <strong>Date:</strong> ${date}
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    loadPerformance();
+  </script>
+</body>
+</html>
