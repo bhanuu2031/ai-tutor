@@ -105,14 +105,14 @@ GEMINI_API_KEY=your_google_gemini_api_key
 
 ## 🧠 AI Integration
 
-### Gemini (Google AI)
+### Grok (LLama AI)
 - Uses `google.generativeai`
 - `.env` file:
   ```
-  GEMINI_API_KEY=your_gemini_api_key
+  GROK_AI_KEY=your_gemini_api_key
   ```
 
-> Uses: `models/gemini-pro` for prompt generation.
+> 
 
 ---
 
