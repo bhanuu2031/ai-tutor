@@ -8,7 +8,8 @@ function TopicFilter({ onSelectTopic }) {
 
   
   useEffect(() => {
-    axios.get("http://192.168.29.163:5000/topics")
+    
+    axios.get("http://localhost:5000/topics")
       .then(res => {
         console.log("TOPICS RECEIVED:", res.data);  // ✅ Check console
         setTopics(res.data);

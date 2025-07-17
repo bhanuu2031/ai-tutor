@@ -1,13 +1,25 @@
+/* index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: global styles */
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  @apply tw-bg-white tw-text-black dark:tw-bg-black dark:tw-text-white;
+  font-family: 'Inter', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Landing page background (pattern effect via CSS, no image needed) */
+.pattern-bg {
+  background-image: radial-gradient(#444 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Quiz button styling */
+.quiz-btn {
+  @apply tw-bg-blue-600 tw-text-white tw-px-4 tw-py-2 tw-rounded tw-mt-4 hover:tw-bg-blue-700 tw-transition tw-duration-200;
 }

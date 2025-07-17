@@ -9,7 +9,7 @@ function Quiz({ topic, setShowQuiz, data, setQuizData }) {
     if (!topic) return;
 
     axios
-      .get(`http://192.168.29.163:5000/quiz?topic=${topic}&count=1`)
+      .get(`http://127.0.0.1:5000/quiz?topic=${topic}&count=1`)// ✅ Unified call
       .then((res) => {
         console.log("✅ Quiz data loaded:", res.data);
         setQuizData(res.data);
@@ -21,7 +21,7 @@ function Quiz({ topic, setShowQuiz, data, setQuizData }) {
         alert("❌ Quiz fetch failed: " + (err.response?.data?.error || err.message));
         setQuizData([]);
       });
-  }, [topic]);
+  }, [topic, setQuizData]);
 
   const handleSubmit = () => {
     let correct = 0;
@@ -29,8 +29,6 @@ function Quiz({ topic, setShowQuiz, data, setQuizData }) {
     data.forEach((q, idx) => {
       const selected = answers[idx]?.trim().toUpperCase();
       const correctAns = q["Correct Answer"]?.trim().toUpperCase();
-
-      console.log(`Q${idx + 1}: Selected = ${selected}, Correct = ${correctAns}`);
 
       if (selected === correctAns) {
         correct += 1;
@@ -53,7 +51,7 @@ function Quiz({ topic, setShowQuiz, data, setQuizData }) {
           </p>
 
           {["A", "B", "C", "D"].map((opt) => {
-            const key = `option_${opt.toLowerCase()}`; // e.g., option_a
+            const key = `option_${opt.toLowerCase()}`;
             return (
               <label key={opt} style={{ display: "block", margin: "6px 0" }}>
                 <input

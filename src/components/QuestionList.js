@@ -13,7 +13,7 @@ function QuestionList({ topic }) {
     setError("");
 
     axios
-      .get(`http://192.168.29.163:5000/questions?topic=${encodeURIComponent(topic)}`)
+      .get(`http://127.0.0.1:5000/questions?topic=${encodeURIComponent(topic)}`)
       .then((res) => {
         console.log("🟢 Raw Response from /questions:", res.data);
 

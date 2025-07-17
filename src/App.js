@@ -9,21 +9,38 @@ function App() {
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizData, setQuizData] = useState([]);
 
+  const handleStartQuiz = () => {
+    if (!selectedTopic) {
+      alert("⚠️ Please select a topic before starting the quiz.");
+      return;
+    }
+    setShowQuiz(true);
+  };
+
   return (
     <div className="container">
       <header>
-        <h1>🧠 JEE AI Tutor</h1>
+        <h1>🧠 ExaMind</h1>
         <p>Practice Past Year Questions & Personalized Quizzes</p>
       </header>
 
       <TopicFilter onSelectTopic={setSelectedTopic} />
 
-      {selectedTopic && !showQuiz && (
+      {!showQuiz && (
         <>
-          <button className="quiz-btn" onClick={() => setShowQuiz(true)}>
-            🎯 Start Quiz on "{selectedTopic}"
+          <button
+            className="quiz-btn"
+            onClick={handleStartQuiz}
+            disabled={!selectedTopic}
+            style={{
+              opacity: selectedTopic ? 1 : 0.5,
+              cursor: selectedTopic ? "pointer" : "not-allowed",
+            }}
+          >
+            🎯 Start Quiz {selectedTopic ? `on "${selectedTopic}"` : ""}
           </button>
-          <QuestionList topic={selectedTopic} />
+
+          {selectedTopic && <QuestionList topic={selectedTopic} />}
         </>
       )}
 
